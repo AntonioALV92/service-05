@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { isObject } from "util";
 
 // Esta función se encarga de cambiar el nombre de todos los
 // campos de un objeto que se encuentren dentro de el objeto m (map)
@@ -9,19 +8,18 @@ import { isObject } from "util";
 
 export const mapear = (object: any[]) => {
     const mapped: any = [];
-    if (!isObject(object)) {
-        for (const item of object) {
-            if (item.idAppMovil === undefined) {
-                mapped.push({
-                    clave_institucion: item.clave_institucion,
-                    nombreCorto: item.nombreCorto,
-                    idAppMovil: null,
-                });
-            } else {
-                mapped.push(item);
-            }
-          }
-    }
+
+    for (const item of object) {
+        if (item.idAppMovil === undefined) {
+            mapped.push({
+                clave_institucion: item.clave_institucion,
+                nombreCorto: item.nombreCorto,
+                idAppMovil: null,
+            });
+        } else {
+            mapped.push(item);
+        }
+      }
     return mapped;
 };
 
