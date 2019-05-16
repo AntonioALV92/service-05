@@ -1,15 +1,17 @@
 # codi-01-registroInicial
 
-Este proyecto contiene el servicio de middleware codi-01-registroInicial que es la capa entre el front (app CoDi Multiva) y el servicio registroInicial de Banxico.
+Este proyecto contiene el servicio de middleware codi-05-catalogoInstituciones que es la capa entre el front (app CoDi Multiva) y el servicio registroInicial de Banxico.
 
 ---
 ## Rutas
 
 Este servicio expone 2 rutas:
 
-* ### **<span style="color:skyblue">POST</span> /general/registroInicial**
+* ### **<span style="color:skyblue">GET</span> /general/catalogoInstituciones **
 Apunta al servicio de regustro inicial de banxico, cuya definición puede encontrarse aquí:
-https://multiva-codi.gitlab.io/banca-movil-schemas/#operation/codi-01-registroInicial
+https://gitlab.com/multiva-codi/codi-05-catalogoinstituciones
+
+
 
 * ### **<span style="color:limegreen">GET</span>  /version**
 Retorna la versión actual del servicio, con base en el package.json del mismo.
@@ -72,7 +74,7 @@ oc secrets add serviceaccount/builder secrets/nexus-pull --for=pull,mount
 Una vez que ya se tienen estas configuraciones, ya se puede ejecutar el siguiente comando para crear el buildconfig:
 
 ```bash
-oc new-app nodejs-10:latest~git@10.160.83.76:CoDi/codi-01-registroinicial.git --source-secret=gitlab-multiva
+oc new-app nodejs-10:latest~git@10.160.83.76:CoDi/codi-05-catalogoinstituciones.git --source-secret=gitlab-multiva
 ```
 
 Esto creará un buildConfig con base en la imagen de RHEL7 NodeJs 10.15 S2I, ahí dentro se hacen las siguientes operaciones automáticamente:
@@ -94,7 +96,7 @@ En la sección "Push To"
 
 Docker Image Repository:
 ```
-nexus-0.dev.openshift.multivaloresgf.local:18444/codi/codi-01-registro-inicial:dev
+nexus-0.dev.openshift.multivaloresgf.local:18444/codi/codi-05-catalogo-instituciones:dev
 ```
 
 y agregar el Push Secret requerido.

@@ -33,21 +33,7 @@ describe(`al ejecutar el servidor`, () => {
     });
   });
 
-  describe('al ejecutar un POST /general/registroInicial', () => {
-    describe(`Si la petición no cumple con la estructura`, () => {
-      test(`Debería retornar un 400 con los errores detallados`, async () => {
-        const response = await request
-          .post('/general/registroInicial')
-          .send({
-            name: '33',
-          });
-        expect(response.status).toBe(400);
-        expect(response.body.code).toBe(-3);
-        expect(response.body.errors).toBeInstanceOf(Array);
-      });
-    });
-
-
+  describe('al ejecutar un GET /general/catalogoInstituciones', () => {
     describe(`al hacer una petición correcta`, () => {
 
       afterEach(() => {
@@ -56,57 +42,45 @@ describe(`al ejecutar el servidor`, () => {
       });
 
       test(`si el servicio de banxico responde correctamente`, async () => {
-        let bodyRequestBanxico: string = '';
+
         let contentTypeRequestBanxico: string = '';
-        nock(routes.registroInicial)
-          .filteringRequestBody((body) => {
-            // Obtenemos el body hacia banxico
-            bodyRequestBanxico = body;
-            return '*';
-          })
+        nock(routes.catalogoInstituciones)
           .matchHeader('content-type', (val) => {
             // Obtenemos el contentType enviado hacia banxico
             contentTypeRequestBanxico = val;
             return true;
           })
-          .post('')
-          .reply(200, {
-            gId: "a5145da24bd47257cc581126f2a3b33d",
-            dv: 0,
-            edoPet: 0,
-          });
+          .get('')
+          .reply(200, [{
+            clave_institucion: 455,
+            nombreCorto: "SSSS",
+            idAppMovil: null || "ssss",
+          }]);
 
         const response = await request
-          .post('/general/registroInicial')
-          .send(fixtures.registroInicialRequest);
-
+          .get('/general/catalogoInstituciones');
         // El body que va hacia el servicio de Banxico debe ser text/plain con
-        // una d= al inicio del json, en string el body
-        expect(bodyRequestBanxico).toEqual('d=' + JSON.stringify(fixtures.registroInicialRequestBanxico));
         expect(contentTypeRequestBanxico).toBe('text/plain');
 
         // Si todo es correcto Banxico retorna un 200
-        // console.log("response:", response.header['content-type']);
         expect(response.header['content-type']).toContain('application/json');
         expect(response.status).toBe(200);
         // Debería de mapear la respuesta del servicio de banxico
-        expect(response.body).toEqual({
-          estadoPeticion: 0,
-          digitoVerificador: 0,
-          googleId: 'a5145da24bd47257cc581126f2a3b33d',
-        });
+        expect(response.body).toEqual([{
+          clave_institucion: 455,
+          nombreCorto: "SSSS",
+          idAppMovil: null || "ssss",
+        }]);
       });
 
 
       test(`si el servicio de banxico no responde json`, async () => {
-        nock(routes.registroInicial)
-          .post('')
+        nock(routes.catalogoInstituciones)
+          .get('')
           .reply(200, 'error banxico string');
 
         const response = await request
-          .post('/general/registroInicial')
-          .send(fixtures.registroInicialRequest);
-
+          .get('/general/catalogoInstituciones');
         // Este servicio si debe responder con JSON
         expect(response.header['content-type']).toContain('application/json');
         // Status 503 para indicar que hay error en Banxico
@@ -119,15 +93,13 @@ describe(`al ejecutar el servidor`, () => {
 
 
       test(`si el servicio de banxico responde error`, async () => {
-        nock(routes.registroInicial)
-          .post('')
+        nock(routes.catalogoInstituciones)
+          .get('')
           .reply(404, fixtures.respuestaErrorBanxico);
 
         const response = await request
-          .post('/general/registroInicial')
-          .send(fixtures.registroInicialRequest);
+          .get('/general/catalogoInstituciones');
         expect(response.status).toBe(503);
-        // console.log("response.body:", response.body);
         expect(response.body.code).toBe(-404);
         expect(response.body.details)
           .toBe(JSON.stringify(fixtures.respuestaErrorBanxico));

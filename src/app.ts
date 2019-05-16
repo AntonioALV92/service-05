@@ -1,9 +1,10 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import packageJson from '../package.json';
-import { RegistroInicialController } from './controllers';
+import { CatalogoInstituciones } from './controllers';
 import { ErrorHandler } from './middlewares/ErrorHandler';
 import { JSONSchema } from './middlewares/JSONSchemaValidator';
+import { LoggerRequest } from './middlewares/LoggerRequest';
 // import { requests } from 'banca-movil-schemas/schemas';
 import { Mapper } from './middlewares/Mapper';
 
@@ -20,10 +21,16 @@ app.get('/version', (req, res) => {
 app.use(bodyParser.json());
 
 const schema = schemas.requests.RegistroInicialRequest;
+// app.use('/general', [
+//     LoggerRequest,
+//     JSONSchema(schema), // Valida petición contra JSON Schema
+//     Mapper,  // Mapea campos de petición a como se requiere por banxico
+//     CatalogoInstituciones, // Manda la petición a banxico
+// ]);
+
 app.use('/general', [
-    JSONSchema(schema), // Valida petición contra JSON Schema
-    Mapper,  // Mapea campos de petición a como se requiere por banxico
-    RegistroInicialController, // Manda la petición a banxico
+    LoggerRequest,
+    CatalogoInstituciones, // Manda la petición a banxico
 ]);
 
 // Error Handler

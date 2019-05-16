@@ -1,3 +1,5 @@
+import { CatalogoInstituciones } from "./controllers";
+
 export const respuestaErrorBanxico = {
     edoPet: -1,
 };
@@ -23,3 +25,9 @@ export const registroInicialRequestBanxico = {
     },
     nc: 0,
 };
+
+///////////
+
+
+
+
