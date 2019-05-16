@@ -37,8 +37,8 @@ describe(`al ejecutar el servidor`, () => {
 
 
 
-  describe("The 'toEqual' matcher", () => {
-    it("should work for objects", () => {
+  describe("Al ejecutar la función debe agregar el parámetro idAppMovil en null si no lo contiene la respuesta", () => {
+    it("Debe retornar un objeto con el parámetro idAppMovil en null", () => {
       expect(mapear(fixtures.mappedRequest)).toEqual(fixtures.mappedResponse);
     });
   });
