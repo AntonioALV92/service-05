@@ -1,4 +1,4 @@
-# codi-01-registroInicial
+# codi-05-CatalogoInstituciones
 
 Este proyecto contiene el servicio de middleware codi-05-catalogoInstituciones que es la capa entre el front (app CoDi Multiva) y el servicio registroInicial de Banxico.
 
