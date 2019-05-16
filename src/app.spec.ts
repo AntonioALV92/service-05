@@ -5,6 +5,8 @@ import packageJson from '../package.json';
 import routes from '../routes.json';
 import app from './app';
 import * as fixtures from './fixtures';
+import { mapear } from './middlewares/Mapper';
+
 
 
 describe(`al ejecutar el servidor`, () => {
@@ -30,6 +32,14 @@ describe(`al ejecutar el servidor`, () => {
       expect(response.status).toBe(200);
       expect(response.body).toBeInstanceOf(Object);
       expect(response.body.version).toEqual(packageJson.version);
+    });
+  });
+
+
+
+  describe("The 'toEqual' matcher", () => {
+    it("should work for objects", () => {
+      expect(mapear(fixtures.mappedRequest)).toEqual(fixtures.mappedResponse);
     });
   });
 

@@ -6,7 +6,7 @@ import { ErrorHandler } from './middlewares/ErrorHandler';
 import { JSONSchema } from './middlewares/JSONSchemaValidator';
 import { LoggerRequest } from './middlewares/LoggerRequest';
 // import { requests } from 'banca-movil-schemas/schemas';
-import { Mapper } from './middlewares/Mapper';
+
 
 
 const schemas = require('banca-movil-schemas/schemas');

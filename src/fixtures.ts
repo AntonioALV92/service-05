@@ -26,6 +26,17 @@ export const registroInicialRequestBanxico = {
     nc: 0,
 };
 
+export const mappedRequest = [{
+    clave_institucion: 333,
+    nombreCorto: "string",
+}];
+
+export const mappedResponse = [{
+    clave_institucion: 333,
+    nombreCorto: "string",
+    idAppMovil: null ,
+}];
+
 ///////////
 
 

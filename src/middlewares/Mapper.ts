@@ -5,7 +5,6 @@ import { Request, Response } from "express";
 // por el valor de los mismos, esto se hace de forma recursiva en cada
 // objeto y los objetos anidados, esta función no funciona si el objeto
 // no tiene arreglos
-
 export const mapear = (object: any[]) => {
     const mapped: any = [];
 
@@ -23,9 +22,3 @@ export const mapear = (object: any[]) => {
     return mapped;
 };
 
-
-export function Mapper(req: Request, res: Response, next: () => void) {
-    const newBody = mapear(req.body);
-    req.body = newBody;
-    next();
-}
